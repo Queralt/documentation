@@ -1,100 +1,85 @@
 Data Vectors
 =============
 
-Data vectors are logical entities that represent an aggregation point for a given channel of information.
+Data vectors are logical entities that represent an aggregation point for a given channel of information. They are modeled as documents.
 
 
-## /dataVectors/create/
+## GET /dataVectors/
+List all existing data vectors
 
-Create a new data vector in the platform. Returns the ID of the newly created data vector, or failure.
+Parameters
 
-Input Variables
+   * include - A JSON array of attributes to return. If none are specified, only 'id' is returned
 
-   * Name - A name for the new data vector
-   * Attributes - Key value pairs
-   		* Connector pairs - A list of key-value pairs of information. Only used by the realtime data input API to allow easier association between incoming information and a data vector. Optional.
-
-Input
-```json
-{
-   "authentication": { },
-   "data": {
-      "name": "New Data Vector",
-      "attributes": {
-         "attribute1": "value1",
-         "temperature": 45.00,
-         "connectors": [
-            {
-                "type": "rfid",
-                "id": "12345"
-            }
-      	]
-      }
-   }
-}
+```
+GET /dataVectors/?include=["id","temperature"]
 ```
 
 Return:
 ```json
-{
-   "session": {
-      "valid": true,
-      "expiration": {
-         "expires": 1381349923,
-         "validFor": 1997693
-      }
-   },
-   "status": {
-      "description": "Everything went as planned.",
-      "success": true,
-      "time": 1379352230
-   }
-}
+[
+	{
+		"id": "warehouse_thermometer",
+		"temperature": 45
+	},
+	{
+		"id": "data vector",
+		"temperature": 67.34
+	}
+]
 ```
 
-## /dataVectors/update/
-
-Update an existing data vector.
-
-Input Variables
-
-   * Attributes - Key value pairs
-   * Connector - A Key/value pair used to correlate the event with an existing data vector. Optional.
-   * ID - The data vector ID. Optional, unless 'connector' is not specified
-
-Input
-```json
-{
-   "authentication": { },
-   "data": {
-      "connector": {
-            "type": "rfid",
-            "id": "12345"
-      },
-      "attributes": {
-         "temperature": 72.23,
-      }
-   }
-}
+## GET /dataVectors/:identifier
+Retrieve the full state of a data vector with the specified identifier.
 ```
-
+GET /dataVectors/warehouse_thermometer
+```
 Return:
 ```json
 {
-   "session": {
-      "valid": true,
-      "expiration": {
-         "expires": 1381349923,
-         "validFor": 1997693
-      }
-   },
-   "status": {
-      "description": "Everything went as planned.",
-      "success": true,
-      "time": 1379352230
-   },
-   "data": {
-      "valid": true
-   }
+	"id": "warehouse_thermometer",
+	"temperature": 45,
+	"humidity": 22
 }
 ```
+
+
+## POST /dataVectors/:identifier
+Update a data vector with the specified identifier. If one does not yet exist, it will be created with the specified data.
+```
+POST /dataVectors/warehouse_thermometer
+```
+```json
+{
+	"temperature": 88
+}
+```
+There is no return data for this call.
+
+
+## POST /dataVectors/
+Create a new data vector, with all attributes specified in the body. An identifier will be returned to the user.
+```
+POST /dataVectors/
+```
+```json
+{
+	"temperature": 45
+}
+```
+Return
+```json
+{
+	"id": "wgsdf7q234nasdf"
+}
+```
+
+
+
+## DELETE /dataVectors/:identifier
+
+Delete a data vector with the specified identifier. If no data vector with that identifier is found, return an error. Otherwise, return nothing.
+```
+DELETE /dataVectors/warehouse_thermometer
+```
+There is no return data for this call.
