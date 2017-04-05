@@ -10,7 +10,7 @@ List all existing data vectors
 Parameters
 
    * include - An array of attributes to return. If none are specified, only 'id' is returned
-   * criteria - An object containing attributes to filter the results by. For additional information, see [Query Operators](Query Operators.md)
+   * criteria - An object containing attributes to filter the results by. For additional information, see [Query Operators](Query%20Operators.md)
    * pagination - An object that contains the current page index and length
    * sort - An object containing the attribute to sort by, and direction
 

@@ -3,7 +3,7 @@ Data Vector Query Operators
 
 The `GET /dataVectors/` API is used for retrieving all information from the platform. It's `criteria` parameter enables afiltering by all kinds of specific information. 
 
-For example, the following query could be used to find only information about data vectors with an attribute 'type' set to 'thermometer', 
+For example, the following query could be used to find only information about data vectors with an attribute 'type' set to 'thermometer'
 
 ```
 GET /dataVectors/
